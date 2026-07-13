@@ -1,26 +1,16 @@
-import test, { expect } from "@playwright/test";
-import { InventoryPage } from "../pages/InventoryPage";
-import { LoginPage } from "../pages/LoginPage";
+import {test, expect } from "../tests/custom-fixtures";
 import { loginData } from "../test-data/LoginData";
 import { inventoryData } from "../test-data/inventoryData";
-import { CheckoutPage } from "../pages/CheckoutPage";
 import { checkoutData } from "../test-data/checkoutData";
 
 test.describe('Inventory actions', () => {
 
-    let loginPage: LoginPage;
-    let inventoryPage: InventoryPage;
-    let checkoutPage: CheckoutPage;
-
-    test.beforeEach(async ({ page }) => {
-        loginPage = new LoginPage(page);
-        inventoryPage = new InventoryPage(page);
-        checkoutPage = new CheckoutPage(page);
+    test.beforeEach(async ({ loginPage }) => {
         loginPage.openURL();
         loginPage.submitLoginForm(loginData[0].username,loginData[0].password);
 });
 
-test('Add items and checkout', async ({ page }) => {
+test('Add items and checkout', async ({ inventoryPage, checkoutPage }) => {
 
     let price = await inventoryPage.getItemPrice();
 
@@ -51,13 +41,13 @@ test('Add items and checkout', async ({ page }) => {
     
 });
 
-test.only('Remove item and check cart', async() => {
+test('Remove item and check cart', async({inventoryPage}) => {
      await inventoryPage.addProductToCart();
       await inventoryPage.removeProductFromCart();
      await expect(inventoryPage.cartsCount).not.toBeVisible();
 })
 
-test('Negative case - Checkout without name', async ({page}) => {
+test('Negative case - Checkout without name', async ({inventoryPage, checkoutPage}) => {
     await inventoryPage.addProductToCart();
     await inventoryPage.openCart();
     await inventoryPage.clickCheckOut();
