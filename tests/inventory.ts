@@ -1,5 +1,5 @@
 import {test, expect } from "../tests/custom-fixtures";
-import { loginData } from "../test-data/LoginData";
+import { loginData } from "../test-data/loginData";
 import { inventoryData } from "../test-data/inventoryData";
 import { checkoutData } from "../test-data/checkoutData";
 
