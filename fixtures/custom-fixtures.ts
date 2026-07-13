@@ -22,8 +22,8 @@ export const test = baseTest.extend<MyFixtures>({
 
     // Define 'inventory' fixture logic
     inventoryPage: async ({ page }, use) => {
-        const productsPage = new InventoryPage(page);
-        await use(productsPage);
+        const inventoryPage = new InventoryPage(page);
+        await use(inventoryPage);
     },
 
     

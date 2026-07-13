@@ -1,19 +1,16 @@
-import test, { expect } from "@playwright/test";
-import { LoginPage } from "../pages/LoginPage";
+import {test, expect } from "../fixtures/custom-fixtures";
 import { loginData } from "../test-data/loginData";
 
 
 test.describe('Authentication', () => {
-    let loginPage: LoginPage;
 
-    test.beforeEach(async ({ page }) => {
-        loginPage = new LoginPage(page);
+    test.beforeEach(async ({ loginPage }) => {
         await loginPage.openURL();
     })
 
     loginData.forEach((data) => {
         if (`${data.expected}` == 'success')
-            test(`${data.testName}`, async ({ page }) => {
+            test(`${data.testName}`, async ({ loginPage }) => {
                 await loginPage.submitLoginForm(`${data.username}`, `${data.password}`);
                 await expect(loginPage.productsHeading).toBeVisible();
 
@@ -22,7 +19,7 @@ test.describe('Authentication', () => {
             })
 
         else if (`${data.expected}` == 'failure') {
-            test(`${data.testName}`, async ({ page }) => {
+            test(`${data.testName}`, async ({ loginPage }) => {
                 await loginPage.submitLoginForm(`${data.username}`, `${data.password}`);
                 await expect(loginPage.loginErrorMessage.loginError).toBeVisible();
             })
