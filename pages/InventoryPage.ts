@@ -10,17 +10,18 @@ export class InventoryPage {
     private readonly checkoutButton: Locator;
     private readonly sortingDropdown: Locator;
     private readonly removeButton: Locator;
+    //private readonly dynamicAddToCartButton: Locator;
 
     constructor(page: Page) {
-        this.addToCartButtons = page.getByText('Add to Cart');
+        this.addToCartButtons = page.getByRole('button', { name: 'Add to cart' });;
         this.productName = page.locator('.inventory_item_name');
         this.cartCount = page.locator('.shopping_cart_badge');
         this.cartButton = page.locator('.shopping_cart_link');
         this.cartItem = page.locator('.inventory_item_name');
-        this.itemPrice = page.locator('.inventory_item_price');  
+        this.itemPrice = page.locator('.inventory_item_price');
         this.checkoutButton = page.locator('#checkout');
         this.sortingDropdown = page.locator('.product_sort_container');
-        this.removeButton = page.getByRole('button', {name: 'Remove'})
+        this.removeButton = page.getByRole('button', { name: 'Remove' })
     }
 
     get productsName() {
@@ -31,15 +32,13 @@ export class InventoryPage {
         return this.cartCount;
     }
 
-    get cartItems(){
+    get cartItems() {
         return this.cartItem;
     }
 
-    get cartItemPrice(){
+    get cartItemPrice() {
         return this.itemPrice;
     }
-
-
 
     async getProductCount(): Promise<number> {
         return await this.cartItem.count();
@@ -53,21 +52,48 @@ export class InventoryPage {
         await this.cartButton.click();
     }
 
-    async getItemPrice(){
+    async getItemPrice() {
         let itemPriceText = await this.itemPrice.first().textContent();
-       return itemPriceText ? itemPriceText.trim() : '';
+        return itemPriceText ? itemPriceText.trim() : '';
     }
 
-    async clickCheckOut(){
+    async clickCheckOut() {
         await this.checkoutButton.click();
     }
 
-    async sorting(){
-        await this.sortingDropdown.selectOption({index:1});
+    async sorting() {
+        await this.sortingDropdown.selectOption({ index: 1 });
     }
 
-    async removeProductFromCart(){
+    async removeProductFromCart() {
         await this.removeButton.click();
+    }
+
+    async getAllProductsName(): Promise<string[]> {
+        return await this.productName.allTextContents();
+    }
+
+    async addAllProductsToCart(): Promise<void> {
+        await this.addToCartButtons.first().waitFor({ state: 'visible', timeout: 5000 });
+        const buttons = await this.addToCartButtons.all();
+        await this.addToCartButtons.first().waitFor({ state: 'visible', timeout: 5000 });
+
+        while (await this.addToCartButtons.first().isVisible()) {
+            await this.addToCartButtons.first().click();
+        }
+    }
+
+    async calculateAllProductsPriceSum(): Promise<number> {
+        const priceStrings = await this.itemPrice.allTextContents();
+
+        let total = 0;
+
+        for (let priceText of priceStrings) {
+            const price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
+            total = total + price;
+        }
+
+        return total;
     }
 
 }

@@ -30,4 +30,6 @@ export class CheckoutPage{
         await this.finishButton.click();
     }
 
+    
+
 }
