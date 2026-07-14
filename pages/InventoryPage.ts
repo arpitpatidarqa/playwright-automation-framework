@@ -75,9 +75,7 @@ export class InventoryPage {
 
     async addAllProductsToCart(): Promise<void> {
         await this.addToCartButtons.first().waitFor({ state: 'visible', timeout: 5000 });
-        const buttons = await this.addToCartButtons.all();
-        await this.addToCartButtons.first().waitFor({ state: 'visible', timeout: 5000 });
-
+        
         while (await this.addToCartButtons.first().isVisible()) {
             await this.addToCartButtons.first().click();
         }
