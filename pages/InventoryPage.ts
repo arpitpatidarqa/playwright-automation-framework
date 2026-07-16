@@ -1,4 +1,5 @@
 import { Locator, Page } from "@playwright/test";
+import { PriceUtils } from "../utils/PriceUtils";
 
 export class InventoryPage {
     private readonly addToCartButtons: Locator;
@@ -84,12 +85,12 @@ export class InventoryPage {
     async calculateAllProductsPriceSum(): Promise<number> {
         const priceStrings = await this.itemPrice.allTextContents();
 
-        let total = 0;
+        const total = PriceUtils.sumPrices(priceStrings);
 
-        for (let priceText of priceStrings) {
-            const price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
-            total = total + price;
-        }
+        // for (let priceText of priceStrings) {
+        //     const price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
+        //     total = total + price;
+        // }
 
         return total;
     }

@@ -10,7 +10,7 @@ test.describe('Authentication', () => {
 
     loginData.forEach((data) => {
         if (`${data.expected}` == 'success')
-            test(`${data.testName}`, async ({ loginPage }) => {
+            test(`@smoke @regression ${data.testName}`, async ({ loginPage }) => {
                 await loginPage.submitLoginForm(`${data.username}`, `${data.password}`);
                 await expect(loginPage.productsHeading).toBeVisible();
 
@@ -18,7 +18,7 @@ test.describe('Authentication', () => {
                 await expect(loginPage.loginErrorMessage.loginButton).toBeVisible();
             })
 
-        else if (`${data.expected}` == 'failure') {
+        else if (`@regression ${data.expected}` == 'failure') {
             test(`${data.testName}`, async ({ loginPage }) => {
                 await loginPage.submitLoginForm(`${data.username}`, `${data.password}`);
                 await expect(loginPage.loginErrorMessage.loginError).toBeVisible();
