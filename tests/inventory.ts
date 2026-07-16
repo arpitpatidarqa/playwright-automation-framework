@@ -6,11 +6,11 @@ import { checkoutData } from "../test-data/checkoutData";
 test.describe('Inventory actions', () => {
 
     test.beforeEach(async ({ loginPage }) => {
-        loginPage.openURL();
-        loginPage.submitLoginForm(loginData[0].username, loginData[0].password);
+       await loginPage.openURL();
+       await loginPage.submitLoginForm(loginData[0].username, loginData[0].password);
     });
 
-    test('@smoke @regression Add items and checkout', async ({ inventoryPage, checkoutPage }) => {
+    test(`@smoke @regression Add items and checkout`, async ({ inventoryPage, checkoutPage }) => {
 
         let price = await inventoryPage.getItemPrice();
 
@@ -39,13 +39,13 @@ test.describe('Inventory actions', () => {
         await expect(checkoutPage.successMessage).toBeVisible();
     });
 
-    test('@regression Remove item and check cart', async ({ inventoryPage }) => {
+    test(`@regression Remove item and check cart`, async ({ inventoryPage }) => {
         await inventoryPage.addProductToCart();
         await inventoryPage.removeProductFromCart();
         await expect(inventoryPage.cartsCount).not.toBeVisible();
     });
 
-    test('@regression Negative case - Checkout without name', async ({ inventoryPage, checkoutPage }) => {
+    test(`@regression Negative case - Checkout without name`, async ({ inventoryPage, checkoutPage }) => {
         await inventoryPage.addProductToCart();
         await inventoryPage.openCart();
         await inventoryPage.clickCheckOut();
@@ -54,7 +54,7 @@ test.describe('Inventory actions', () => {
         expect(checkoutPage.errorCheckoutMessage).toBeVisible();
     });
 
-    test('@regression Validate all items and total', async ({ inventoryPage }) => {
+    test(`@regression Validate all items and total`, async ({ inventoryPage }) => {
         await inventoryPage.addAllProductsToCart();
         const itemNames = await inventoryPage.getAllProductsName();
         const itemTotal = await inventoryPage.calculateAllProductsPriceSum();

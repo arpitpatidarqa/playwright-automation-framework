@@ -18,8 +18,8 @@ test.describe('Authentication', () => {
                 await expect(loginPage.loginErrorMessage.loginButton).toBeVisible();
             })
 
-        else if (`@regression ${data.expected}` == 'failure') {
-            test(`${data.testName}`, async ({ loginPage }) => {
+        else if (`${data.expected}` == 'failure') {
+            test(`@regression ${data.testName}`, async ({ loginPage }) => {
                 await loginPage.submitLoginForm(`${data.username}`, `${data.password}`);
                 await expect(loginPage.loginErrorMessage.loginError).toBeVisible();
             })
