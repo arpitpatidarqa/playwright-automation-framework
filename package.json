@@ -3,13 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:smoke": "npx playwright test --grep @smoke --headed",
+    "test:regression": "npx playwright test --grep @regression --headed",
+    "clean:results": "rimraf allure-results allure-report",
+    "allure:generate": "npx allure generate allure-results --output allure-report",
+    "allure:open": "npx allure open allure-report",
+    "allure:serve": "npx allure serve allure-results"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.61.1",
-    "@types/node": "^26.0.0"
+    "@types/node": "^26.0.0",
+    "allure-playwright": "^3.10.2",
+    "rimraf": "^6.1.3"
   }
 }
