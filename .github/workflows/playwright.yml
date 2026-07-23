@@ -15,7 +15,6 @@ on:
           - '@smoke'
           - '@regression'
           - '@sanity'
-          - '' # Option to run all tests without tag filtering
 jobs:
   test:
     timeout-minutes: 60
