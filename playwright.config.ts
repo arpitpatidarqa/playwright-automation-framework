@@ -27,7 +27,10 @@ export default defineConfig({
   //reporter: 'html',
   reporter: [
     ['line'], 
-    ['allure-playwright', { outputFolder: 'allure-results' }]
+    ['allure-playwright', { outputFolder: 'allure-results' }],
+    ['html', { open: 'never' }], // 'never' prevents auto-opening browser in CI
+    ['list']
+  
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
